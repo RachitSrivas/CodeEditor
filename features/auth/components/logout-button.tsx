@@ -13,9 +13,6 @@ const LogOutButton =({children}:LogoutButtonProps)=>{
         router.refresh()
     }
 
-
-
-
 return (
     <span className="cursor-pointer" onClick={onLogout} >
         {children}
