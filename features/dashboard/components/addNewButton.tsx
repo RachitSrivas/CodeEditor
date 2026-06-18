@@ -11,13 +11,14 @@ import { toast } from "sonner";
 
 
 
- 
+import { Templates } from "@prisma/client";
+
 const AddNewButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [selectedTemplate, setSelectedTemplate] = useState<{
     title: string;
-    template: "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR";
+    template: Templates;
     description?: string;
   } | null>(null)
 
@@ -25,7 +26,7 @@ const AddNewButton = () => {
 
   const handleSubmit = async(data: {
     title: string;
-    template: "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR";
+    template: Templates;
     description?: string;
   }) => {
     setSelectedTemplate(data)

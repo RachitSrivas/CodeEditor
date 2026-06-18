@@ -54,7 +54,7 @@ export const createPlayground = async (data:{
         const playground = await db.playground.create({
             data:{
                 title:title,
-                description:description,
+                description: description || "",
                 template:template,
                 userId:user?.id!
             }

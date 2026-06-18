@@ -245,6 +245,7 @@ interface TemplateNodeProps {
   onDeleteFolder?: (folder: TemplateFolder, parentPath: string) => void
   onRenameFile?: (file: TemplateFile, newFilename: string, newExtension: string, parentPath: string) => void
   onRenameFolder?: (folder: TemplateFolder, newFolderName: string, parentPath: string) => void
+  isLanguageTemplate?: boolean
 }
 
 function TemplateNode({

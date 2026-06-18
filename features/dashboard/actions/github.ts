@@ -161,7 +161,7 @@ export const importGithubRepo = async (url: string, template: Templates, title: 
         title: title || `${owner}/${repo}`,
         description: `Imported from https://github.com/${owner}/${repo}`,
         template,
-        userId: user.id,
+        userId: user.id as string,
       },
     });
 
