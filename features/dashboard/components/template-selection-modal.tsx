@@ -23,9 +23,13 @@ import {
   Clock,
   Check,
   Plus,
+  Terminal,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+
+import { SiCplusplus, SiC, SiPython, SiJavascript } from "react-icons/si";
+import { FaJava } from "react-icons/fa";
 
 // TemplateSelectionModal.tsx
 type TemplateSelectionModalProps = {
@@ -33,7 +37,7 @@ type TemplateSelectionModalProps = {
   onClose: () => void;
   onSubmit: (data: {
     title: string;
-    template: "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR";
+    template: "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR" | "CPP" | "C" | "JAVA" | "PYTHON" | "JAVASCRIPT";
     description?: string;
   }) => void;
 };
@@ -43,11 +47,12 @@ interface TemplateOption {
   name: string;
   description: string;
   icon: string;
+  iconComponent?: React.ReactNode;
   color: string;
   popularity: number;
   tags: string[];
   features: string[];
-  category: "frontend" | "backend" | "fullstack";
+  category: "frontend" | "backend" | "fullstack" | "language";
 }
 
 const templates: TemplateOption[] = [
@@ -133,6 +138,66 @@ const templates: TemplateOption[] = [
     ],
     category: "fullstack",
   },
+  {
+    id: "cpp",
+    name: "C++",
+    description: "Standard C++ environment for practicing algorithms and console applications",
+    icon: "",
+    iconComponent: <SiCplusplus size={36} color="#00599C" />,
+    color: "#00599C",
+    popularity: 5,
+    tags: ["C++", "Console", "Backend"],
+    features: ["Piston Execution", "Real-time Output", "Fast"],
+    category: "language",
+  },
+  {
+    id: "c",
+    name: "C",
+    description: "Standard C environment for systems programming and algorithms",
+    icon: "",
+    iconComponent: <SiC size={36} color="#A8B9CC" />,
+    color: "#A8B9CC",
+    popularity: 4,
+    tags: ["C", "Console", "Backend"],
+    features: ["Piston Execution", "Real-time Output", "Fast"],
+    category: "language",
+  },
+  {
+    id: "java",
+    name: "Java",
+    description: "Standard Java environment for Object-Oriented programming",
+    icon: "",
+    iconComponent: <FaJava size={36} color="#b07219" />,
+    color: "#b07219",
+    popularity: 5,
+    tags: ["Java", "Console", "Backend"],
+    features: ["Piston Execution", "Real-time Output", "Fast"],
+    category: "language",
+  },
+  {
+    id: "python",
+    name: "Python",
+    description: "Standard Python environment for scripts, data, and algorithms",
+    icon: "",
+    iconComponent: <SiPython size={36} color="#3572A5" />,
+    color: "#3572A5",
+    popularity: 5,
+    tags: ["Python", "Console", "Backend"],
+    features: ["Piston Execution", "Real-time Output", "Fast"],
+    category: "language",
+  },
+  {
+    id: "javascript",
+    name: "JavaScript",
+    description: "Standard Node.js environment for vanilla JavaScript practice",
+    icon: "",
+    iconComponent: <SiJavascript size={36} color="#f7df1e" />,
+    color: "#f7df1e",
+    popularity: 5,
+    tags: ["JavaScript", "Console", "Node.js"],
+    features: ["Native Execution", "Real-time Output", "Fast"],
+    category: "language",
+  }
 ];
 
 const TemplateSelectionModal = ({
@@ -144,7 +209,7 @@ const TemplateSelectionModal = ({
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState<
-    "all" | "frontend" | "backend" | "fullstack"
+    "all" | "frontend" | "backend" | "fullstack" | "language"
   >("all");
   const [projectName, setProjectName] = useState("");
 
@@ -176,7 +241,7 @@ const TemplateSelectionModal = ({
     if (selectedTemplate) {
       const templateMap: Record<
         string,
-        "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR"
+        "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR" | "CPP" | "C" | "JAVA" | "PYTHON" | "JAVASCRIPT"
       > = {
         react: "REACT",
         nextjs: "NEXTJS",
@@ -184,6 +249,11 @@ const TemplateSelectionModal = ({
         vue: "VUE",
         hono: "HONO",
         angular: "ANGULAR",
+        cpp: "CPP",
+        c: "C",
+        java: "JAVA",
+        python: "PYTHON",
+        javascript: "JAVASCRIPT",
       };
 
       const template = templates.find((t) => t.id === selectedTemplate);
@@ -280,11 +350,12 @@ const TemplateSelectionModal = ({
                   className="w-full sm:w-auto"
                   onValueChange={(value) => setCategory(value as any)}
                 >
-                  <TabsList className="grid grid-cols-4 w-full sm:w-[400px]">
+                  <TabsList className="grid grid-cols-5 w-full sm:w-[500px]">
                     <TabsTrigger value="all">All</TabsTrigger>
                     <TabsTrigger value="frontend">Frontend</TabsTrigger>
                     <TabsTrigger value="backend">Backend</TabsTrigger>
                     <TabsTrigger value="fullstack">Fullstack</TabsTrigger>
+                    <TabsTrigger value="language">Language</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
@@ -322,13 +393,17 @@ const TemplateSelectionModal = ({
                             className="relative w-16 h-16 flex-shrink-0 flex items-center justify-center rounded-full"
                             style={{ backgroundColor: `${template.color}15` }}
                           >
-                            <Image
-                              src={template.icon || "/placeholder.svg"}
-                              alt={`${template.name} icon`}
-                              width={40}
-                              height={40}
-                              className="object-contain"
-                            />
+                            {template.iconComponent ? (
+                              template.iconComponent
+                            ) : (
+                              <Image
+                                src={template.icon || "/placeholder.svg"}
+                                alt={`${template.name} icon`}
+                                width={40}
+                                height={40}
+                                className="object-contain"
+                              />
+                            )}
                           </div>
 
                           <div className="flex flex-col">
@@ -350,6 +425,12 @@ const TemplateSelectionModal = ({
                                   <Globe
                                     size={14}
                                     className="text-purple-500"
+                                  />
+                                )}
+                                {template.category === "language" && (
+                                  <Terminal
+                                    size={14}
+                                    className="text-orange-500"
                                   />
                                 )}
                               </div>

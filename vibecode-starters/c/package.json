@@ -1,0 +1,7 @@
+{
+  "name": "c-playground",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node run.js"
+  }
+}

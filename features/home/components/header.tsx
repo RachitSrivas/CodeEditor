@@ -2,8 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ui/theme-toogle";
 import UserButton from "@/features/auth/components/user-button";
-
-
+import { Button } from "@/components/ui/button";
 export function Header() {
   return (
     <>
@@ -76,6 +75,9 @@ export function Header() {
                 {/* Right side items */}
                 <div className="hidden sm:flex items-center gap-3">
                   <span className="text-zinc-300 dark:text-zinc-700">|</span>
+                  <Link href="/dashboard">
+                    <Button variant="brand" size="sm" className="rounded-full px-4 font-semibold">Get Started</Button>
+                  </Link>
                   {/* <HeaderPro /> */}
                   <ThemeToggle />
                   <UserButton/>
@@ -85,15 +87,12 @@ export function Header() {
                 <div className="flex sm:hidden items-center gap-4">
                   <Link
                     href="/docs/components/action-search-bar"
-                    className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                    className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors hidden sm:block"
                   >
                     Docs
                   </Link>
-                  <Link
-                    href="/pricing"
-                    className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
-                  >
-                    API
+                  <Link href="/dashboard">
+                    <Button variant="brand" size="sm" className="rounded-full px-4 font-semibold">Get Started</Button>
                   </Link>
                   <ThemeToggle />
                   <UserButton/>

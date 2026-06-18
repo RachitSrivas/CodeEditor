@@ -25,9 +25,9 @@ export default function Home() {
         efficiently.
       </p>
       <Link href={"/dashboard"}>
-        <Button variant="brand" className="mb-4" size={"lg"}>
+        <Button variant="brand" className="mb-4 px-10 py-7 text-xl rounded-2xl font-bold transition-all hover:scale-105" size={"lg"}>
           Get Started
-          <ArrowUpRight className="w-3.5 h-3.5" />
+          <ArrowUpRight className="w-5 h-5 ml-2" />
         </Button>
       </Link>
     </div>
