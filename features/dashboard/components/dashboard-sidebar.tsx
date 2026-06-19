@@ -35,6 +35,16 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ThemeToggle } from "@/components/ui/theme-toogle"
+import { signOut, useSession } from "next-auth/react"
 import Image from "next/image"
 
 // Define the interface for a single playground item, icon is now a string
@@ -58,6 +68,7 @@ const lucideIconMap: Record<string, LucideIcon> = {
 }
 
 export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundData: PlaygroundData[] }) {
+  const { data: session } = useSession()
   const pathname = usePathname()
   const [starredPlaygrounds, setStarredPlaygrounds] = useState(initialPlaygroundData.filter((p) => p.starred))
   const [recentPlaygrounds, setRecentPlaygrounds] = useState(initialPlaygroundData)
@@ -172,12 +183,51 @@ export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundD
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Settings">
-              <Link href="/settings">
-                <Settings className="h-4 w-4" />
-                <span>Settings</span>
-              </Link>
-            </SidebarMenuButton>
+            <Dialog>
+              <DialogTrigger asChild>
+                <SidebarMenuButton tooltip="Settings">
+                  <Settings className="h-4 w-4" />
+                  <span>Settings</span>
+                </SidebarMenuButton>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Settings</DialogTitle>
+                </DialogHeader>
+                <Tabs defaultValue="appearance" className="w-full mt-4">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="appearance">Appearance</TabsTrigger>
+                    <TabsTrigger value="account">Account</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="appearance" className="mt-4">
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="space-y-0.5">
+                        <div className="font-medium">Theme</div>
+                        <div className="text-sm text-muted-foreground">Toggle between light and dark mode</div>
+                      </div>
+                      <ThemeToggle />
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="account" className="mt-4">
+                    <div className="space-y-4">
+                      {session?.user && (
+                        <div className="p-4 border rounded-lg flex items-center justify-between">
+                          <div>
+                            <div className="font-medium">{session.user.name || "User"}</div>
+                            <div className="text-sm text-muted-foreground">{session.user.email}</div>
+                          </div>
+                        </div>
+                      )}
+                      <Button variant="destructive" className="w-full" onClick={() => signOut()}>
+                        Log Out
+                      </Button>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </DialogContent>
+            </Dialog>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
